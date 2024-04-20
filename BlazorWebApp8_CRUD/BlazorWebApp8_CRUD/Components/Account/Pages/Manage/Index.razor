@@ -28,6 +28,16 @@
                 <label for="phone-number" class="form-label">Phone number</label>
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
             </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.FullName" class="form-control" placeholder="Please enter your full name." />
+                <label for="full-name" class="form-label">Full name</label>
+                <ValidationMessage For="() => Input.FullName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputDate @bind-Value="Input.BirthDate" class="form-control" placeholder="Date of Birth dd/mm/yyyy" />
+                <label for="birth-date" class="form-label">Birth date</label>
+                <ValidationMessage For="() => Input.BirthDate" class="text-danger" />
+            </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </EditForm>
     </div>
@@ -51,21 +61,25 @@
         phoneNumber = await UserManager.GetPhoneNumberAsync(user);
 
         Input.PhoneNumber ??= phoneNumber;
+        Input.FullName ??= user.FullName;
+        Input.BirthDate ??= user.BirthDate;
     }
 
     private async Task OnValidSubmitAsync()
     {
-        if (Input.PhoneNumber != phoneNumber)
+        user.PhoneNumber = Input.PhoneNumber;
+        user.FullName = Input.FullName;
+        user.BirthDate = Input.BirthDate;
+
+        var updateResult = await UserManager.UpdateAsync(user);
+        if (!updateResult.Succeeded)
         {
-            var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-            if (!setPhoneResult.Succeeded)
-            {
-                RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to set phone number.", HttpContext);
-            }
+            RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to update user profile.", HttpContext);
+            return;
         }
 
         await SignInManager.RefreshSignInAsync(user);
-        RedirectManager.RedirectToCurrentPageWithStatus("Your profile has been updated", HttpContext);
+        RedirectManager.RedirectToCurrentPageWithStatus("Your user profile has been updated", HttpContext);
     }
 
     private sealed class InputModel
@@ -73,5 +87,7 @@
         [Phone]
         [Display(Name = "Phone number")]
         public string? PhoneNumber { get; set; }
+        public string? FullName { get; set; }
+        public DateOnly? BirthDate { get; set; }
     }
 }
