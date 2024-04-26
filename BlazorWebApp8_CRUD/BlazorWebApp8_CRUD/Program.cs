@@ -2,6 +2,7 @@ using BlazorWebApp8_CRUD.Client.Pages;
 using BlazorWebApp8_CRUD.Components;
 using BlazorWebApp8_CRUD.Components.Account;
 using BlazorWebApp8_CRUD.Data;
+using BlazorWebApp8_CRUD.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,8 @@ namespace BlazorWebApp8_CRUD
                 .AddDefaultTokenProviders();
 
             builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+            
+            builder.Services.AddScoped<IMammalService, MammalService>();
 
             var app = builder.Build();
 
