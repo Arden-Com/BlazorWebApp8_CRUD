@@ -1,0 +1,46 @@
+﻿@page "/EditMammal"
+@page "/EditMammal/{id:int}"
+@inject IMammalService MammalService
+@inject NavigationManager NavigationManager
+
+<h3>Edit Mammal</h3>
+
+<EditForm Model="@mammal" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="EnglishName">English Name</label>
+        <InputText id="EnglishName" class="form-control" @bind-Value="mammal.EnglishName" />
+    </div>
+
+    <div class="form-group">
+        <label for="Species">Species</label>
+        <InputText id="Species" class="form-control" @bind-Value="mammal.Species" />
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <InputText id="Description" class="form-control" @bind-Value="mammal.Description" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</EditForm>
+
+@code 
+{
+    [Parameter]
+    public int? id { get; set; }
+
+    private Mammal mammal = new Mammal 
+                            { 
+                                EnglishName = string.Empty 
+                            };
+    
+    public async Task HandleValidSubmit()
+    {
+        //await MammalService.SaveMammal(mammal);
+        NavigationManager.NavigateTo("/mammals");
+    }
+}
