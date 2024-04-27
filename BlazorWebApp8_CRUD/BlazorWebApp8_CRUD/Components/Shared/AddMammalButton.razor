@@ -1,0 +1,12 @@
+﻿@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<button @onclick="AddMammal" class="btn btn-primary">Add Mammal</button>
+
+@code 
+{
+    public void AddMammal()
+    {
+        NavigationManager.NavigateTo("/EditMammal");
+    }
+}

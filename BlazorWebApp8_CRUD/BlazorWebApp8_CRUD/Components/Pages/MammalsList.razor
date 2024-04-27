@@ -1,9 +1,7 @@
 ﻿@page "/mammals"
 @inject IMammalService MammalService
-@inject NavigationManager NavigationManager
 
 @attribute [StreamRendering(true)]
-@rendermode InteractiveServer
 
 <h3>Mammals List</h3>
 
@@ -39,7 +37,8 @@ else
         </tbody>
     </table>
 }
-<button @onclick="AddMammal" class="btn btn-primary">Add Mammal</button>
+
+<AddMammalButton/>
 
 @code 
 {
@@ -50,8 +49,5 @@ else
         mammals = await MammalService.GetAllMammals();
     }
 
-    public void AddMammal()
-    {
-        NavigationManager.NavigateTo("/EditMammal");
-    }
+
 }
