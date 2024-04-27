@@ -1,0 +1,46 @@
+﻿@page "/mammals"
+@inject IMammalService MammalService
+
+<h3>Mammals List</h3>
+
+@if(mammals == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if(mammals.Count == 0)
+{
+    <p><em>No mammals found</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Species</th>
+                <th>Age</th>)
+</tr>
+        </thead>
+        <tbody>
+            @foreach (var mammal in mammals)
+            {
+                <tr>
+                    <td>@mammal.Id</td>
+                    <td>@mammal.EnglishName</td>
+                    <td>@mammal.Species</td>
+                    <td>@mammal.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code 
+{
+    List<Mammal> mammals = new List<Mammal>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        mammals = await MammalService.GetAllMammals();
+    }
+}
