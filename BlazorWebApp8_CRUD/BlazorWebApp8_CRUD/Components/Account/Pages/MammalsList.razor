@@ -1,5 +1,6 @@
 ﻿@page "/mammals"
 @inject IMammalService MammalService
+@attribute [StreamRendering(true)]
 
 <h3>Mammals List</h3>
 
@@ -19,7 +20,7 @@ else
                 <th>Id</th>
                 <th>Name</th>
                 <th>Species</th>
-                <th>Age</th>)
+                <th>Description</th>)
 </tr>
         </thead>
         <tbody>
