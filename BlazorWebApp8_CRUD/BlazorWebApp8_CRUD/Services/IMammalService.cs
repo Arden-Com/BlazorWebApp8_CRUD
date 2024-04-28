@@ -1,8 +1,11 @@
-﻿namespace BlazorWebApp8_CRUD.Services
+﻿using BlazorWebApp8_CRUD.Entity;
+
+namespace BlazorWebApp8_CRUD.Services
 {
-    using BlazorWebApp8_CRUD.Entity;
     public interface IMammalService
     {
         Task<List<Mammal>> GetAllMammals();
+        public Task<Mammal> AddMammal(Mammal mammal);
+
     }
 }

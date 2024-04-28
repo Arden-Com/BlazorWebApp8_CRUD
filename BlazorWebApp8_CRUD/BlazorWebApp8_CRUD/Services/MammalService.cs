@@ -3,6 +3,7 @@
     using BlazorWebApp8_CRUD.Data;
     using BlazorWebApp8_CRUD.Entity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Query.Internal;
 
     public class MammalService : IMammalService
     {
@@ -17,6 +18,14 @@
         {
             var mammals = await _context.Mammals.ToListAsync();
             return mammals;
+        }
+
+        public Task<Mammal> AddMammal(Mammal mammal)
+        {
+            _context.Mammals.Add(mammal);
+            _context.SaveChanges();
+
+            return Task.FromResult(mammal);
         }
     }
 }

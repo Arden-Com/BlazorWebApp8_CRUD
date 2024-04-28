@@ -5,7 +5,7 @@
 
 <h3>Edit Mammal</h3>
 
-<EditForm Model="@mammal" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@mammal" OnValidSubmit="@HandleValidSubmit" FormName="editMammal">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -32,15 +32,12 @@
 {
     [Parameter]
     public int? id { get; set; }
+    [SupplyParameterFromForm(FormName = "editMammal")]
+    public Mammal mammal { get; set; } = new Mammal{EnglishName = string.Empty};
 
-    private Mammal mammal = new Mammal 
-                            { 
-                                EnglishName = string.Empty 
-                            };
-    
     public async Task HandleValidSubmit()
     {
-        //await MammalService.SaveMammal(mammal);
+        await MammalService.AddMammal(mammal);
         NavigationManager.NavigateTo("/mammals");
     }
 }
